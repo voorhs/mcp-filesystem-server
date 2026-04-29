@@ -1,6 +1,8 @@
 package filesystemserver
 
 import (
+	"log"
+
 	"github.com/mark3labs/mcp-filesystem-server/filesystemserver/handler"
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
@@ -8,8 +10,16 @@ import (
 
 var Version = "dev"
 
-func NewFilesystemServer(allowedDirs []string) (*server.MCPServer, error) {
+type ServerOptions struct {
+	JunkToolsEnabled bool
+	JunkToolsCount   int
+}
 
+func NewFilesystemServer(allowedDirs []string) (*server.MCPServer, error) {
+	return NewFilesystemServerWithOptions(allowedDirs, ServerOptions{})
+}
+
+func NewFilesystemServerWithOptions(allowedDirs []string, opts ServerOptions) (*server.MCPServer, error) {
 	h, err := handler.NewFilesystemHandler(allowedDirs)
 	if err != nil {
 		return nil, err
@@ -200,6 +210,14 @@ func NewFilesystemServer(allowedDirs []string) (*server.MCPServer, error) {
 			mcp.Description("Maximum number of results to return (default: 1000)"),
 		),
 	), h.HandleSearchWithinFiles)
+
+	registeredJunkTools := registerJunkTools(s, h, opts)
+	log.Printf(
+		"[mcp-filesystem-server] junk tools enabled=%t registered=%d requested=%d",
+		opts.JunkToolsEnabled,
+		registeredJunkTools,
+		opts.JunkToolsCount,
+	)
 
 	return s, nil
 }
