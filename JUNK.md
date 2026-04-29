@@ -1,6 +1,6 @@
-# Distractor Tool Catalog (150 tools)
+# Auxiliary Tool Catalog (150 tools)
 
-This file proposes an experiment-ready set of 150 junk/distractor tools for the filesystem MCP server.
+This file proposes an experiment-ready set of 150 auxiliary tools for the filesystem MCP server.
 
 Goals:
 - Keep tools in-domain and plausible.
@@ -31,7 +31,7 @@ To keep implementation simple, tools reuse these argument shapes:
 
 ---
 
-## 1) Path/metadata distractors (1-15)
+## 1) Path/metadata utilities (1-15)
 
 1. `probe_path_shape` - Args: `A1` - Return normalized path segments and depth classification.
 2. `probe_path_entropy` - Args: `A1` - Return simple character entropy estimate for path string.
@@ -49,7 +49,7 @@ To keep implementation simple, tools reuse these argument shapes:
 14. `probe_path_alias_candidates` - Args: `A1` - Suggest alias names without creating anything.
 15. `probe_path_signature` - Args: `A1` - Return stable hash-like signature of path string only.
 
-## 2) Directory summary distractors (16-30)
+## 2) Directory summary utilities (16-30)
 
 16. `summarize_directory_density` - Args: `A2` - Return file/dir count ratios by depth.
 17. `summarize_directory_extensions` - Args: `A2` - Return extension frequency histogram.
@@ -67,7 +67,7 @@ To keep implementation simple, tools reuse these argument shapes:
 29. `summarize_directory_duplicates_by_name` - Args: `A2` - Return duplicate basenames across branches.
 30. `summarize_directory_tree_signature` - Args: `A2` - Return compact deterministic tree fingerprint.
 
-## 3) Filename-pattern distractors (31-45)
+## 3) Filename-pattern utilities (31-45)
 
 31. `scan_name_pattern_loose` - Args: `A3` - Return loose fuzzy filename matches.
 32. `scan_name_pattern_strict` - Args: `A3` - Return strict substring filename matches.
@@ -85,7 +85,7 @@ To keep implementation simple, tools reuse these argument shapes:
 44. `scan_name_pattern_alnum_only` - Args: `A3` - Return alphanumeric-normalized matches.
 45. `scan_name_pattern_ranked` - Args: `A3` - Return ranked filename candidates with simple reasons.
 
-## 4) Content-probe distractors (46-60)
+## 4) Content-probe utilities (46-60)
 
 46. `probe_content_presence` - Args: `A4` - Return whether substring appears at least once.
 47. `probe_content_count` - Args: `A4` - Return approximate substring occurrence counts.
@@ -103,7 +103,7 @@ To keep implementation simple, tools reuse these argument shapes:
 59. `probe_content_preview` - Args: `A4` - Return short snippets for top matches only.
 60. `probe_content_ranked_sources` - Args: `A4` - Return ranked candidate files likely containing substring.
 
-## 5) Read-preview distractors (61-75)
+## 5) Read-preview utilities (61-75)
 
 61. `preview_file_head` - Args: `A5` - Return first N lines with truncation marker.
 62. `preview_file_tail` - Args: `A5` - Return last N lines with truncation marker.
@@ -121,7 +121,7 @@ To keep implementation simple, tools reuse these argument shapes:
 74. `preview_file_entropy` - Args: `A1` - Return line-level entropy summary.
 75. `preview_file_checksum_report` - Args: `A1` - Return checksum plus basic size metadata.
 
-## 6) Tree-shape distractors (76-90)
+## 6) Tree-shape utilities (76-90)
 
 76. `tree_compact_map` - Args: `A2` - Return compact tree with only names and depth.
 77. `tree_files_only` - Args: `A2` - Return files-only tree skeleton.
@@ -139,7 +139,7 @@ To keep implementation simple, tools reuse these argument shapes:
 89. `tree_symlink_overview` - Args: `A2` - Return symlink count and locations summary.
 90. `tree_signature_compare` - Args: `A6` - Return structural signature comparison of two directories.
 
-## 7) Plan/simulation distractors (91-105)
+## 7) Plan/simulation utilities (91-105)
 
 91. `simulate_copy_plan` - Args: `A6` - Return hypothetical copy plan without copying.
 92. `simulate_move_plan` - Args: `A6` - Return hypothetical move plan without moving.
@@ -157,27 +157,27 @@ To keep implementation simple, tools reuse these argument shapes:
 104. `simulate_index_plan` - Args: `A1` - Return plan for indexing files, no index written.
 105. `simulate_sync_plan` - Args: `A6` - Return hypothetical sync steps and risk markers.
 
-## 8) Junk-workspace write distractors (106-120)
+## 8) Report-writing utilities (106-120)
 
 These are intentionally write-capable but MUST write only under `.junk_workspace/`.
 
-106. `junk_write_note` - Args: `A8` - Write a metadata note file into `.junk_workspace/`.
-107. `junk_write_summary` - Args: `A8` - Write a short summary artifact into `.junk_workspace/`.
-108. `junk_write_index_stub` - Args: `A8` - Write a fake index manifest into `.junk_workspace/`.
-109. `junk_write_digest` - Args: `A8` - Write digest-like report into `.junk_workspace/`.
-110. `junk_write_pathmap` - Args: `A8` - Write path mapping report into `.junk_workspace/`.
-111. `junk_write_scanlog` - Args: `A8` - Write scan log artifact into `.junk_workspace/`.
-112. `junk_write_probe_result` - Args: `A8` - Write probe output artifact into `.junk_workspace/`.
-113. `junk_write_tree_snapshot` - Args: `A8` - Write compact tree snapshot into `.junk_workspace/`.
-114. `junk_write_name_report` - Args: `A8` - Write filename-style report into `.junk_workspace/`.
-115. `junk_write_content_report` - Args: `A8` - Write content-hit report into `.junk_workspace/`.
-116. `junk_write_extension_report` - Args: `A8` - Write extension histogram into `.junk_workspace/`.
-117. `junk_write_activity_report` - Args: `A8` - Write mtime activity report into `.junk_workspace/`.
-118. `junk_write_structure_report` - Args: `A8` - Write structure profile report into `.junk_workspace/`.
-119. `junk_write_compare_report` - Args: `A8` - Write source/destination comparison report.
-120. `junk_write_audit_stub` - Args: `A8` - Write an audit placeholder report.
+106. `write_note_report` - Args: `A8` - Write a metadata note file into `.junk_workspace/`.
+107. `write_summary_report` - Args: `A8` - Write a short summary artifact into `.junk_workspace/`.
+108. `write_index_stub` - Args: `A8` - Write an index manifest into `.junk_workspace/`.
+109. `write_digest_report` - Args: `A8` - Write digest-like report into `.junk_workspace/`.
+110. `write_pathmap_report` - Args: `A8` - Write path mapping report into `.junk_workspace/`.
+111. `write_scanlog_report` - Args: `A8` - Write scan log artifact into `.junk_workspace/`.
+112. `write_probe_result` - Args: `A8` - Write probe output artifact into `.junk_workspace/`.
+113. `write_tree_snapshot` - Args: `A8` - Write compact tree snapshot into `.junk_workspace/`.
+114. `write_name_report` - Args: `A8` - Write filename-style report into `.junk_workspace/`.
+115. `write_content_report` - Args: `A8` - Write content-hit report into `.junk_workspace/`.
+116. `write_extension_report` - Args: `A8` - Write extension histogram into `.junk_workspace/`.
+117. `write_activity_report` - Args: `A8` - Write mtime activity report into `.junk_workspace/`.
+118. `write_structure_report` - Args: `A8` - Write structure profile report into `.junk_workspace/`.
+119. `write_compare_report` - Args: `A8` - Write source/destination comparison report.
+120. `write_audit_stub` - Args: `A8` - Write an audit placeholder report.
 
-## 9) Two-path comparison distractors (121-135)
+## 9) Two-path comparison utilities (121-135)
 
 121. `compare_path_shape` - Args: `A6` - Compare path token and segment structures.
 122. `compare_path_length` - Args: `A6` - Compare path-length and depth metrics.
@@ -195,7 +195,7 @@ These are intentionally write-capable but MUST write only under `.junk_workspace
 134. `compare_structure_signature` - Args: `A6` - Compare deterministic structure signatures.
 135. `compare_anomaly_flags` - Args: `A6` - Compare anomaly-flag sets.
 
-## 10) Advisory/ranking distractors (136-150)
+## 10) Advisory/ranking utilities (136-150)
 
 136. `rank_candidate_paths` - Args: `A3` - Rank candidate paths by lexical relevance.
 137. `rank_candidate_files` - Args: `A3` - Rank files likely related to pattern intent.
@@ -218,6 +218,6 @@ These are intentionally write-capable but MUST write only under `.junk_workspace
 ## Notes for experiment reporting
 
 - All tools are intentionally non-essential for benchmark tasks.
-- Most tools are read-only summaries or simulations.
+- Most tools are analytical summaries or planning helpers.
 - The 15 junk-write tools are sandboxed to `.junk_workspace/`.
-- The set is designed to create lexical and semantic distractors, not environment breakage.
+- The set is designed to increase lexical and semantic overlap while avoiding environment breakage.

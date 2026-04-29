@@ -91,7 +91,7 @@ func buildJunkTool(spec junkToolSpec) mcp.Tool {
 		opts = append(
 			opts,
 			mcp.WithString("path", mcp.Description("Reference path"), mcp.Required()),
-			mcp.WithString("output_name", mcp.Description("Report file name in .junk_workspace")),
+			mcp.WithString("output_name", mcp.Description("Optional output report file name")),
 		)
 	default:
 		opts = append(opts, mcp.WithString("path", mcp.Description("Target path"), mcp.Required()))
@@ -110,7 +110,7 @@ func buildJunkToolSpecs() []junkToolSpec {
 		{
 			Kind:        "path_metadata",
 			ArgTemplate: "A1",
-			Description: "Distractor: path-level analysis only; does not perform core file operations.",
+			Description: "Analyze path structure and naming patterns for the provided location.",
 			Names: []string{
 				"probe_path_shape", "probe_path_entropy", "probe_path_tokens", "probe_path_naming_style",
 				"probe_path_risk_flags", "probe_path_case_profile", "probe_path_unicode_profile", "probe_path_similarity_hint",
@@ -121,7 +121,7 @@ func buildJunkToolSpecs() []junkToolSpec {
 		{
 			Kind:        "directory_summary",
 			ArgTemplate: "A2",
-			Description: "Distractor: returns directory summary metrics; not a replacement for list/tree tools.",
+			Description: "Compute directory-level summary metrics and distribution statistics.",
 			Names: []string{
 				"summarize_directory_density", "summarize_directory_extensions", "summarize_directory_name_lengths", "summarize_directory_hidden_items",
 				"summarize_directory_empty_dirs", "summarize_directory_leaf_nodes", "summarize_directory_branching", "summarize_directory_age_buckets",
@@ -132,7 +132,7 @@ func buildJunkToolSpecs() []junkToolSpec {
 		{
 			Kind:        "name_pattern",
 			ArgTemplate: "A3",
-			Description: "Distractor: lexical filename matching and ranking, not authoritative search.",
+			Description: "Perform lexical filename matching and return ranked candidate matches.",
 			Names: []string{
 				"scan_name_pattern_loose", "scan_name_pattern_strict", "scan_name_pattern_casefold", "scan_name_pattern_word_boundary",
 				"scan_name_pattern_suffix", "scan_name_pattern_prefix", "scan_name_pattern_extension_bias", "scan_name_pattern_depth_bias",
@@ -143,7 +143,7 @@ func buildJunkToolSpecs() []junkToolSpec {
 		{
 			Kind:        "content_probe",
 			ArgTemplate: "A4",
-			Description: "Distractor: substring probing summaries; not full semantic file analysis.",
+			Description: "Probe text-content match behavior and return summarized hit statistics.",
 			Names: []string{
 				"probe_content_presence", "probe_content_count", "probe_content_casefold", "probe_content_line_spread",
 				"probe_content_density", "probe_content_clustered_hits", "probe_content_context_window", "probe_content_first_hit",
@@ -154,7 +154,7 @@ func buildJunkToolSpecs() []junkToolSpec {
 		{
 			Kind:        "read_preview",
 			ArgTemplate: "A5",
-			Description: "Distractor: small previews and heuristics only; not a full read operation.",
+			Description: "Generate compact file previews and lightweight content heuristics.",
 			Names: []string{
 				"preview_file_head", "preview_file_tail", "preview_file_middle", "preview_file_sampled",
 				"preview_file_ascii_ratio", "preview_file_whitespace_profile", "preview_file_line_length_profile", "preview_file_bracket_profile",
@@ -165,7 +165,7 @@ func buildJunkToolSpecs() []junkToolSpec {
 		{
 			Kind:        "tree_shape",
 			ArgTemplate: "A2",
-			Description: "Distractor: structure-oriented tree statistics; not canonical traversal output.",
+			Description: "Generate structure-oriented tree statistics and topology summaries.",
 			Names: []string{
 				"tree_compact_map", "tree_files_only", "tree_directories_only", "tree_sorted_alpha",
 				"tree_sorted_mtime", "tree_sorted_size", "tree_grouped_by_extension", "tree_grouped_by_depth",
@@ -176,7 +176,7 @@ func buildJunkToolSpecs() []junkToolSpec {
 		{
 			Kind:        "simulate_plan",
 			ArgTemplate: "A7",
-			Description: "Distractor: simulation-only planning output; does not execute filesystem actions.",
+			Description: "Generate a planned operation outline for the requested path and mode.",
 			Names: []string{
 				"simulate_copy_plan", "simulate_move_plan", "simulate_delete_plan", "simulate_modify_plan",
 				"simulate_rename_candidates", "simulate_refactor_layout", "simulate_archive_plan", "simulate_cleanup_plan",
@@ -185,20 +185,20 @@ func buildJunkToolSpecs() []junkToolSpec {
 			},
 		},
 		{
-			Kind:        "junk_workspace_write",
+			Kind:        "report_write",
 			ArgTemplate: "A8",
-			Description: "Distractor: writes only report artifacts under .junk_workspace.",
+			Description: "Create a compact report artifact associated with the provided path.",
 			Names: []string{
-				"junk_write_note", "junk_write_summary", "junk_write_index_stub", "junk_write_digest",
-				"junk_write_pathmap", "junk_write_scanlog", "junk_write_probe_result", "junk_write_tree_snapshot",
-				"junk_write_name_report", "junk_write_content_report", "junk_write_extension_report", "junk_write_activity_report",
-				"junk_write_structure_report", "junk_write_compare_report", "junk_write_audit_stub",
+				"write_note_report", "write_summary_report", "write_index_stub", "write_digest_report",
+				"write_pathmap_report", "write_scanlog_report", "write_probe_result", "write_tree_snapshot",
+				"write_name_report", "write_content_report", "write_extension_report", "write_activity_report",
+				"write_structure_report", "write_compare_report", "write_audit_stub",
 			},
 		},
 		{
 			Kind:        "two_path_compare",
 			ArgTemplate: "A6",
-			Description: "Distractor: comparative metrics between two paths; does not copy/move files.",
+			Description: "Compute comparative metrics and profile differences between two paths.",
 			Names: []string{
 				"compare_path_shape", "compare_path_length", "compare_extension_mix", "compare_name_style",
 				"compare_hidden_density", "compare_size_buckets", "compare_age_buckets", "compare_tree_balance",
@@ -209,7 +209,7 @@ func buildJunkToolSpecs() []junkToolSpec {
 		{
 			Kind:        "advisory_rank",
 			ArgTemplate: "A3",
-			Description: "Distractor: advisory ranking output only; does not perform file operations.",
+			Description: "Rank candidate paths and return operation guidance for the given pattern.",
 			Names: []string{
 				"rank_candidate_paths", "rank_candidate_files", "rank_candidate_dirs", "rank_candidate_edit_targets",
 				"rank_candidate_move_targets", "rank_candidate_copy_targets", "rank_candidate_cleanup_targets", "rank_candidate_archive_targets",

@@ -26,30 +26,26 @@ func (fs *FilesystemHandler) HandleJunkTool(
 	}
 
 	report := map[string]any{
-		"distractor":    true,
-		"tool_name":     toolName,
-		"tool_kind":     toolKind,
-		"arg_template":  argTemplate,
-		"core_action":   "none",
-		"safe_contract": "no core filesystem mutation",
-		"params":        params,
+		"tool":   toolName,
+		"status": "ok",
+		"params": params,
 	}
 
-	if toolKind == "junk_workspace_write" {
+	if toolKind == "report_write" {
 		artifactPath, writeErr := fs.writeJunkWorkspaceArtifact(params, toolName, report)
 		if writeErr != nil {
 			return &mcp.CallToolResult{
 				Content: []mcp.Content{
 					mcp.TextContent{
 						Type: "text",
-						Text: fmt.Sprintf("Error writing junk artifact: %v", writeErr),
+						Text: fmt.Sprintf("Error writing report artifact: %v", writeErr),
 					},
 				},
 				IsError: true,
 			}, nil
 		}
 		report["artifact_path"] = artifactPath
-		report["core_action"] = "write_junk_workspace_only"
+		report["artifact_written"] = true
 	}
 
 	payload, marshalErr := json.MarshalIndent(report, "", "  ")
@@ -58,7 +54,7 @@ func (fs *FilesystemHandler) HandleJunkTool(
 			Content: []mcp.Content{
 				mcp.TextContent{
 					Type: "text",
-					Text: fmt.Sprintf("Error generating distractor report: %v", marshalErr),
+					Text: fmt.Sprintf("Error generating report payload: %v", marshalErr),
 				},
 			},
 			IsError: true,
@@ -225,7 +221,7 @@ func (fs *FilesystemHandler) writeJunkWorkspaceArtifact(
 ) (string, error) {
 	pathVal, ok := params["path"].(string)
 	if !ok || pathVal == "" {
-		return "", fmt.Errorf("missing path for junk workspace write")
+		return "", fmt.Errorf("missing path for report write")
 	}
 
 	baseDir := filepath.Dir(pathVal)
