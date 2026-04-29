@@ -82,6 +82,43 @@ This MCP server provides secure access to the local filesystem via the Model Con
 - MIME type detection
 - Support for text, binary, and image files
 - Size limits for inline content and base64 encoding
+- Optional distractor/junk tool registration for robustness experiments
+
+## Distractor Tool Mode (optional)
+
+This server can expose generated junk tools for evaluation experiments (for example,
+to stress test tool selection under large tool catalogs).
+
+Environment variables:
+
+- `MCP_FS_JUNK_TOOLS_ENABLED`:
+  - Enable distractor tools when set to `1`, `true`, `yes`, `on` (case-insensitive).
+  - Disabled by default.
+- `MCP_FS_JUNK_TOOLS_COUNT`:
+  - Number of distractor tools to register.
+  - If omitted or `<= 0`, all built-in distractor tools are registered (150).
+
+Example:
+
+```bash
+MCP_FS_JUNK_TOOLS_ENABLED=1 MCP_FS_JUNK_TOOLS_COUNT=150 mcp-filesystem-server /path/to/allowed/directory
+```
+
+Docker example:
+
+```bash
+docker run -i --rm \
+  -e MCP_FS_JUNK_TOOLS_ENABLED=1 \
+  -e MCP_FS_JUNK_TOOLS_COUNT=150 \
+  ghcr.io/mark3labs/mcp-filesystem-server:latest \
+  /path/to/allowed/directory
+```
+
+At startup, the server logs a line like:
+
+```text
+[mcp-filesystem-server] junk tools enabled=true registered=150 requested=150
+```
 
 ## Getting Started
 
